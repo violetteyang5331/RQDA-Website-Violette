@@ -11,32 +11,25 @@ TEEN_DANCERS = [
     ]
 
 def match(level, firstName, lastName, birthday):
-    if level == "adult":
-        pass
     if level == "teen":
-        for i in range(1, len(TEEN_DANCERS)):
-            if firstName == TEEN_DANCERS[i]["first_name"] and lastName == TEEN_DANCERS[i]["last_name"]and birthday == TEEN_DANCERS[i]["birthday"]:
-                TEEN_DANCERS[i]["account"] = True
+        for dancer in TEEN_DANCERS:
+            if firstName == dancer["first_name"] and lastName == dancer["last_name"] and birthday == dancer["birthday"]:
+                dancer["account"] = True
                 return True
-            else:
-                return False
-    if level == "junior":
-        pass
-    if level == "mini":
-        pass
+        return False
     
 def has_acc(level, firstName, lastName, birthday):
     if level == "adult":
         pass
     if level == "teen":
-        for i in range(1, len(TEEN_DANCERS)):
-            if firstName == TEEN_DANCERS[i]["first_name"] and lastName == TEEN_DANCERS[i]["last_name"]and birthday == TEEN_DANCERS[i]["birthday"]:
-                if TEEN_DANCERS[i]["account"] == True:
+        for dancer in TEEN_DANCERS:
+            if firstName == dancer["first_name"] and lastName == dancer["last_name"]and birthday == dancer["birthday"]:
+                if dancer["account"] == True:
                     return True
                 else:
                     return False
-            else:
-                return False
+        else:
+            return False
     if level == "junior":
         pass
     if level == "mini":
@@ -114,7 +107,15 @@ def sign_up():
             db.session.add(new_user)
             db.session.commit()
             flash("Account created!", category="success")
-            login_user(user, remember=True)
+            login_user(new_user, remember=True)
             return redirect(url_for("views.home"))
     
     return render_template("sign_up.html", user=current_user)
+
+@auth.route("/about-us")
+def about_us():
+    return render_template("about_us.html", user=current_user)
+
+@auth.route("/meet-the-team")
+def meet_the_team():
+    return render_template("meet_the_team.html", user=current_user)

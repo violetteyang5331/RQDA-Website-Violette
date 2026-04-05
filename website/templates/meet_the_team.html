@@ -4,12 +4,22 @@
 {% block content %}
 <style>
     .team-strip {
-        background-color: #8E5A8C; /* CFA3C9, more muted */
+        background-color: #8E5A8C;
         padding: 40px 20px;
         margin-bottom: 30px;
         color: white;
-        width: 100%;
         border-radius: 10px;
+    }
+    
+    .team-card-img {
+        width: 50%;        /* takes 25% of card width */
+        max-width: 1400px;  /* prevents it from getting too big */
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    .col-12.col-m-6 {
+        display: flex;
     }
     
     .team-card {
@@ -18,12 +28,15 @@
         background-color: #f4c2c2;
         padding: 20px;
         border-radius: 10px;
-        align-items: flex-start;
+    
+        /* make desktop cards equal height and vertically center content */
+        align-items: center;
+        height: 100%;  /* will work with flex-fill in parent */
     }
-
+    
     .team-card-img {
-        width: 50%;        /* takes 25% of card width */
-        max-width: 1400px;  /* prevents it from getting too big */
+        width: 50%;
+        max-width: 1400px;
         aspect-ratio: 1 / 1;
         object-fit: cover;
         border-radius: 10px;
@@ -32,13 +45,14 @@
     @media (max-width: 576px) {
         .team-card {
             flex-direction: column;
-            align-items: center;
+            align-items: center;  /* center horizontally */
             text-align: center;
         }
     
         .team-card-img {
             width: 50%;
             max-width: 180px;
+            margin-bottom: 12px; /* optional spacing below image */
         }
     }
 </style>
@@ -75,8 +89,8 @@
   <div class="row g-4">
 
     <!-- Person 1 -->
-    <div class="col-12 col-md-6">
-      <div class="team-card d-flex align-items-start">
+    <div class="col-12 col-md-6" style="margin-bottom: 25px">
+      <div class="team-card flex-fill">
         <img src="{{ url_for('static', filename='images/random_callie_and_melinda.png') }}"
              class="team-card-img"
              alt="person1">
@@ -91,8 +105,8 @@
     </div>
 
     <!-- Person 2 -->
-    <div class="col-12 col-md-6">
-      <div class="team-card d-flex align-items-start">
+    <div class="col-12 col-md-6" style="margin-bottom: 25px">
+      <div class="team-card flex-fill">
         <img src="{{ url_for('static', filename='images/random_ella_and_elisa.png') }}"
              class="team-card-img"
              alt="person2">
@@ -100,7 +114,23 @@
         <div class="ms-3">
           <h4 class="mb-1">Ella and Elisa</h4>
           <p class="mb-0">
-            Ella didn't have her phone for a day lol
+            ella didn't have her phone for a day lol
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Person 3 -->
+    <div class="col-12 col-md-6" style="margin-bottom: 25px">
+      <div class="team-card flex-fill">
+        <img src="{{ url_for('static', filename='images/random_violette_and_ella.png') }}"
+             class="team-card-img"
+             alt="person2">
+
+        <div class="ms-3">
+          <h4 class="mb-1">Violette and Ella</h4>
+          <p class="mb-0">
+            for purposes of seeing if this margin is good... this pic was from so long ago 🥹
           </p>
         </div>
       </div>

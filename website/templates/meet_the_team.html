@@ -2,24 +2,39 @@
 {% block title %}Meet the Team{% endblock %}
 
 {% block content %}
+<style>
+    .team-strip {
+        background-color: #8E5A8C; /* CFA3C9, more muted */
+        padding: 40px 20px;
+        margin-bottom: 30px;
+        color: white;
+    }
+</style>
+
+<br />
+
 <h1 align="center">Meet the Team</h1>
 
-<div class="container">
-  <div class="row align-items-center">
-    
-    <div class="col-md-4 text-center">
-      <img src="{{ url_for('static', filename='images/rose.png') }}" 
-           class="img-fluid team-img" 
-           alt="rose!!!">
-    </div>
+<br />
 
-    <div class="col-md-8">
-      <h3>Rose Xinran Qi</h3>
-      <p>
-        Ms. Rose is very cool :D
-      </p>
-    </div>
+<div class="team-strip" style="width: 100vw; margin-left: calc(-50vw + 50%);">
+  <div class="container">
+    <div class="row align-items-center">
+      
+      <div class="col-md-4 text-center">
+        <img src="{{ url_for('static', filename='images/rose.png') }}" 
+             class="img-fluid team-img" 
+             alt="rose!!!">
+      </div>
 
+      <div class="col-md-8">
+        <h3>Rose Xinran Qi, Director and Choreographer</h3>
+        <p>
+          Ms. Rose is very cool :D
+        </p>
+      </div>
+
+    </div>
   </div>
 </div>
 

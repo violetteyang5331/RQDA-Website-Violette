@@ -3,13 +3,70 @@
   <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
     <style>
+        html, body {
+            height: 100%;
+        }
+        
       body {
+          display: flex;
+          flex-direction: column;
+          
         background-color: #FFF2F0 !important;
-        font-family: "Inter", sans-serif !important;
+        font-family: "Nunito", sans-serif !important;
         /* font-family: "Courier New", monospace !important; */
       }
+      
+      main {
+          flex: 1;
+      }
+      
+      footer {
+        background-color: #8E5A8C;
+        color: white;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        min-height: 150px;
+        text-align: center;
+        }
+
+    .footer-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 2px; /* tighter control */
+        transform: translateY(10px);
+    }
+
+    .footer-content p {
+        margin: 0;
+        line-height: 1.3; /* reduce vertical bias */
+    }
+
+    /* Remove default paragraph spacing */
+    footer p {
+        margin: 0;
+    }
+
+    /* Style links like navbar */
+    footer a {
+        color: white;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    
+    footer a img {
+        padding: 5px 0;
+    }
+
+    /* Hover effect (like navbar) */
+    footer a:hover {
+        color: #FFF2F0;
+    }
 
       .navbar .nav-link:hover {
         color: #FFF2F0 !important;
@@ -22,6 +79,10 @@
       .custom-navbar {
           min-height: 80px;
           padding: 0;
+    }
+    
+    .container {
+        flex: 1;
     }
     
     @media (min-width: 992px) {
@@ -178,6 +239,19 @@
         type="text/javascript"
         src="{{ url_for('static', filename='index.js') }}"
     ></script>
+    
+    <footer>
+      <div class="footer-content">
+        <p>Author: Violette Yang</p>
+        <p><a href="mailto:hege@example.com">actualemailhere@gmail.com</a></p>
+        <p><a href="https://www.instagram.com/roseqi_dance_arts_/">Instagram: @roseqi_dance_arts_</a></p>
+        <a href="https://github.com/violetteyang5331/RQDA-Website-Violette" target="_blank">
+        <img src="{{ url_for('static', filename='images/github_white.png') }}" 
+             alt="Github"
+             style="height: 60px;">
+        </a>
+      </div>
+    </footer>
 
 {% block javascript %}
     <script type="text/javascript">

@@ -8,6 +8,38 @@
         padding: 40px 20px;
         margin-bottom: 30px;
         color: white;
+        width: 100%;
+        border-radius: 10px;
+    }
+    
+    .team-card {
+        display: flex;
+        gap: 16px;
+        background-color: #f4c2c2;
+        padding: 20px;
+        border-radius: 10px;
+        align-items: flex-start;
+    }
+
+    .team-card-img {
+        width: 50%;        /* takes 25% of card width */
+        max-width: 1400px;  /* prevents it from getting too big */
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    
+    @media (max-width: 576px) {
+        .team-card {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+    
+        .team-card-img {
+            width: 50%;
+            max-width: 180px;
+        }
     }
 </style>
 
@@ -17,12 +49,13 @@
 
 <br />
 
-<div class="team-strip" style="width: 100vw; margin-left: calc(-50vw + 50%);">
+<div class="team-strip" style="width: 100%;">
   <div class="container">
     <div class="row align-items-center">
       
       <div class="col-md-4 text-center">
         <img src="{{ url_for('static', filename='images/rose.png') }}" 
+             style="border-radius: 10px;"
              class="img-fluid team-img" 
              alt="rose!!!">
       </div>
@@ -35,6 +68,46 @@
       </div>
 
     </div>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row g-4">
+
+    <!-- Person 1 -->
+    <div class="col-12 col-md-6">
+      <div class="team-card d-flex align-items-start">
+        <img src="{{ url_for('static', filename='images/random_callie_and_melinda.png') }}"
+             class="team-card-img"
+             alt="person1">
+
+        <div class="ms-3">
+          <h4 class="mb-1">Callie and Melinda</h4>
+          <p class="mb-0">
+            im pretty sure this picture was from nationals last year :D waiting for solo awards?
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Person 2 -->
+    <div class="col-12 col-md-6">
+      <div class="team-card d-flex align-items-start">
+        <img src="{{ url_for('static', filename='images/random_ella_and_elisa.png') }}"
+             class="team-card-img"
+             alt="person2">
+
+        <div class="ms-3">
+          <h4 class="mb-1">Ella and Elisa</h4>
+          <p class="mb-0">
+            Ella didn't have her phone for a day lol
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add more people the same way -->
+
   </div>
 </div>
 

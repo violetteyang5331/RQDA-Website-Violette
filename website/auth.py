@@ -6,52 +6,64 @@ from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint("auth", __name__)
 
+# Dancer dictionaries for each level
 TEEN_DANCERS = [
-    {"first_name": "Violette", "last_name": "Yang", "birthday":"02:09", "account":False}
-    ]
+    {"first_name": "Violette", "last_name": "Yang", "birthday": "02-09", "account": False}
+]
 
-def match(level, firstName, lastName, birthday):
-    if level == "teen":
-        for dancer in TEEN_DANCERS:
-            if firstName == dancer["first_name"] and lastName == dancer["last_name"] and birthday == dancer["birthday"]:
-                dancer["account"] = True
-                return True
-        return False
-    
-def has_acc(level, firstName, lastName, birthday):
-    if level == "adult":
-        pass
-    if level == "teen":
-        for dancer in TEEN_DANCERS:
-            if firstName == dancer["first_name"] and lastName == dancer["last_name"]and birthday == dancer["birthday"]:
-                if dancer["account"] == True:
-                    return True
-                else:
-                    return False
-        else:
-            return False
-    if level == "junior":
-        pass
-    if level == "mini":
-        pass
+ADULT_DANCERS = [
+    # Add adult dancers here
+]
+
+JUNIOR_DANCERS = [
+    # Add junior dancers here
+]
+
+MINI_DANCERS = [
+    # Add mini dancers here
+]
+
+DANCER_LISTS = {
+    "teen": TEEN_DANCERS,
+    "adult": ADULT_DANCERS,
+    "junior": JUNIOR_DANCERS,
+    "mini": MINI_DANCERS
+}
+
+# Check if a dancer exists in the official list
+def is_valid_dancer(level, first_name, last_name, birthday):
+    dancers = DANCER_LISTS.get(level, [])
+    for dancer in dancers:
+        if (dancer["first_name"] == first_name and
+            dancer["last_name"] == last_name and
+            dancer["birthday"] == birthday):
+            return True
+    return False
+
+# Check if a dancer already has an account
+def has_account(level, first_name, last_name, birthday):
+    dancers = DANCER_LISTS.get(level, [])
+    for dancer in dancers:
+        if (dancer["first_name"] == first_name and
+            dancer["last_name"] == last_name and
+            dancer["birthday"] == birthday):
+            return dancer.get("account", False)
+    return False
 
 @auth.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
-        
+
         user = User.query.filter_by(email=email).first()
-        if user:
-            if check_password_hash(user.password, password):
-                flash("Logged in successfully!", category="success")
-                login_user(user, remember=True)
-                return redirect(url_for("views.home"))
-            else:
-                flash("Incorrect password, try again.", category="error")
+        if user and check_password_hash(user.password, password):
+            flash("Logged in successfully!", category="success")
+            login_user(user, remember=True)
+            return redirect(url_for("views.home"))
         else:
-            flash("Email does not exist.", category="error")
-        
+            flash("Invalid email or password.", category="error")
+
     return render_template("login.html", user=current_user)
 
 @auth.route("/logout")
@@ -70,48 +82,57 @@ def sign_up():
         birthday = request.form.get("birthday_md")
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
-        
-        user = User.query.filter_by(email=email).first()
-        validity = match(rqda_level, first_name, last_name, birthday)
-        
-        '''
-        if user:
-            flash("Email already exists.", category="error")
-        elif rqda_level == "":
-            flash("Please enter an RQDA level.", category="error")
-        elif len(email) < 4:
-            flash("Email must be greater than 3 characters.", category="error")
-        elif len(first_name) < 2:
-            flash("First name must be greater than 1 character.", category="error")
-        elif password1 != password2:
-            flash("Passwords must match.", category="error")
+
+        # Validation checks
+        if not rqda_level:
+            flash("Please select an RQDA level.", category="error")
+        elif not email or len(email) < 4 or "@" not in email:
+            flash("Please enter a valid email address.", category="error")
+        elif not first_name or len(first_name) < 2:
+            flash("First name must be at least 2 characters.", category="error")
+        elif not last_name or len(last_name) < 2:
+            flash("Last name must be at least 2 characters.", category="error")
         elif len(password1) < 7:
             flash("Password must be at least 7 characters.", category="error")
-        else:
-            new_user = User(email=email, first_name=first_name, password=generate_password_hash(password1, method="pbkdf2:sha256"))
-            db.session.add(new_user)
-            db.session.commit()
-            flash("Account created!", category="success")
-            login_user(user, remember=True)
-            return redirect(url_for("views.home"))
-        '''
-        
-        if user or has_acc(rqda_level, first_name, last_name, birthday):
-            flash("Account already exists.", category="error")
-        elif validity == False:
-            flash("Not a valid dancer, please check your information.", category="error")
         elif password1 != password2:
             flash("Passwords must match.", category="error")
         else:
-            new_user = User(email=email, first_name=first_name, password=generate_password_hash(password1, method="pbkdf2:sha256"))
-            db.session.add(new_user)
-            db.session.commit()
-            flash("Account created!", category="success")
-            login_user(new_user, remember=True)
-            return redirect(url_for("views.home"))
-    
+            # Check duplicates: email or dancer identity
+            user_email_exists = User.query.filter_by(email=email).first()
+            dancer_has_account = has_account(rqda_level, first_name, last_name, birthday)
+
+            if user_email_exists or dancer_has_account:
+                flash("An account with this email or dancer info already exists.", category="error")
+            elif not is_valid_dancer(rqda_level, first_name, last_name, birthday):
+                flash("Not a valid dancer, please check your information.", category="error")
+            else:
+                # Create new user
+                new_user = User(
+                    email=email,
+                    first_name=first_name,
+                    last_name=last_name,
+                    rqda_level=rqda_level,
+                    password=generate_password_hash(password1, method="pbkdf2:sha256")
+                )
+                db.session.add(new_user)
+                db.session.commit()
+
+                # Mark dancer as having an account
+                dancers = DANCER_LISTS[rqda_level]
+                for dancer in dancers:
+                    if (dancer["first_name"] == first_name and
+                        dancer["last_name"] == last_name and
+                        dancer["birthday"] == birthday):
+                        dancer["account"] = True
+                        break
+
+                flash("Account created!", category="success")
+                login_user(new_user, remember=True)
+                return redirect(url_for("views.home"))
+
     return render_template("sign_up.html", user=current_user)
 
+# Optional pages
 @auth.route("/about-us")
 def about_us():
     return render_template("about_us.html", user=current_user)

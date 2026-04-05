@@ -11,6 +11,7 @@
         transition: all 0.2s ease;
         border-radius: 6px;
         padding: 6px 12px;
+        font-size: 18px;
       }
 
       .navbar .nav-link:hover {
@@ -20,6 +21,30 @@
       .nav-item.dropdown:hover .dropdown-menu {
         display: block;
       }
+      
+      .custom-navbar {
+          min-height: 80px;
+          padding: 0;
+    }
+
+    .navbar-collapse {
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 80px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .navbar-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .navbar-nav {
+        gap: 10px;
+    }
+    
 </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -45,35 +70,45 @@
       </button>
     
       <div class="collapse navbar-collapse" id="navbar">
-        <!-- LEFT ALIGNED -->
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/about-us">About Us</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/meet-the-team">Meet the Team</a>
-          </li>
-        </ul>
-
-        <!-- RIGHT ALIGNED -->
-        <ul class="navbar-nav ml-auto">
-          {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" href="/logout">Logout</a>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="/login">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/sign-up">Sign Up</a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
+          <!-- LEFT -->
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about-us">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/meet-the-team">Meet the Team</a>
+            </li>
+          </ul>
+        
+          <!-- CENTER LOGO -->
+          <div class="navbar-center d-none d-lg-block">
+            <img src="{{ url_for('static', filename='images/logo_pink_bg.png') }}"
+                 alt="logo"
+                 style="height: 50px;">
+          </div>
+        
+          <!-- RIGHT -->
+          <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <span class="nav-link">Hello, {{ user.first_name }}!</span>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/sign-up">Sign Up</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
     </nav>
     {% with messages = get_flashed_messages(with_categories=true) %} {% if
     messages %} {% for category, message in messages %} {% if category ==

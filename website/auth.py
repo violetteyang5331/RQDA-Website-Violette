@@ -7,8 +7,13 @@ from flask_login import login_user, login_required, logout_user, current_user
 auth = Blueprint("auth", __name__)
 
 # Dancer dictionaries for each level
+TEST_USERS = [
+    
+]
+
 TEEN_DANCERS = [
-    {"first_name": "Violette", "last_name": "Yang", "birthday": "02-09", "account": False}
+    {"first_name": "Violette", "last_name": "Yang", "birthday": "02-09", "account": False},
+    {"first_name": "Test", "last_name": "User", "birthday": "01-01", "account": False}
 ]
 
 ADULT_DANCERS = [
@@ -24,6 +29,7 @@ MINI_DANCERS = [
 ]
 
 DANCER_LISTS = {
+    "test": TEST_USERS,
     "teen": TEEN_DANCERS,
     "adult": ADULT_DANCERS,
     "junior": JUNIOR_DANCERS,
@@ -92,8 +98,8 @@ def sign_up():
             flash("First name must be at least 2 characters.", category="error")
         elif not last_name or len(last_name) < 2:
             flash("Last name must be at least 2 characters.", category="error")
-        elif len(password1) < 7:
-            flash("Password must be at least 7 characters.", category="error")
+        elif len(password1) < 6:
+            flash("Password must be at least 6 characters.", category="error")
         elif password1 != password2:
             flash("Passwords must match.", category="error")
         else:
@@ -132,7 +138,6 @@ def sign_up():
 
     return render_template("sign_up.html", user=current_user)
 
-# Optional pages
 @auth.route("/about-us")
 def about_us():
     return render_template("about_us.html", user=current_user)
@@ -140,3 +145,8 @@ def about_us():
 @auth.route("/meet-the-team")
 def meet_the_team():
     return render_template("meet_the_team.html", user=current_user)
+
+@auth.route("/schedule")
+@login_required
+def schedule():
+    return render_template("schedule.html", user=current_user)

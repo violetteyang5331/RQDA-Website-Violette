@@ -184,7 +184,7 @@
           <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
             <li class="nav-item">
-                <span class="nav-link">Hello, {{ user.first_name }}!</span>
+                <a class="nav-link" href="/schedule">{{ user.first_name }}'s Schedule</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/logout">Logout</a>

@@ -109,6 +109,48 @@
           padding: 6px 12px;
           font-size: 18px;
         }
+        
+        .navbar .dropdown {
+          position: relative;
+        }
+
+        .navbar .dropdown-menu {
+            display: none;
+            position: relative;          /* make it part of the navbar flow */
+            top: 30px;                      /* align with navbar */
+            left: 50%;
+            transform: translateX(-50%);             /* no centering needed */
+            margin: 0 !important;
+            border: none;
+            background-color: black;
+            min-width: 100%;             /* same width as the parent li */
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0;                  /* optional: reduce padding */
+            z-index: 1000;
+        }
+
+        .navbar .dropdown-item {
+            color: #C2BCBC;
+            padding: 6px 12px;           /* match navbar links */
+            text-align: left;            /* optional */
+            display: block;
+        }
+
+        /* hover effect */
+        .navbar .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+            
+        .mobile-only {
+            display: none !important;
+        }
+        
+        /* hover matches navbar links */
+        .navbar .dropdown-item:hover {
+          color: #FFF2F0;
+          background-color: transparent; /* no box highlight */
+        }
     }
     
     @media (max-width: 991px) {
@@ -133,6 +175,31 @@
           padding: 8px 0;
           font-size: 16px;
         }
+        
+        .navbar .dropdown-menu {
+            display: block !important;   /* always visible */
+            position: static;            /* removes absolute positioning */
+            background: none;            /* removes box look */
+            box-shadow: none;
+            border: none;
+            background-color: black !important;
+            text-align: center !important;
+          }
+
+       .navbar .dropdown-item {
+            padding-left: 20px;
+            color: #C2BCBC !important;
+            margin-top: 50px !important;
+      }
+      
+      .navbar .dropdown-item:hover {
+        color: #FFF2F0;
+        background-color: transparent; /* no box highlight */
+      }
+      
+      .desktop-only {
+          display: none !important;
+      }
     }
     
 </style>
@@ -165,10 +232,20 @@
             <li class="nav-item">
               <a class="nav-link" href="/">Home</a>
             </li>
-            <li class="nav-item">
+
+            <!-- Desktop dropdown -->
+            <li class="nav-item dropdown desktop-only">
               <a class="nav-link" href="/about-us">About Us</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="/meet-the-team">Meet the Team</a>
+              </div>
             </li>
-            <li class="nav-item">
+
+            <!-- Mobile version -->
+            <li class="nav-item mobile-only">
+                <a class="nav-link" href="/about-us">About Us</a>
+            </li>
+            <li class="nav-item mobile-only">
               <a class="nav-link" href="/meet-the-team">Meet the Team</a>
             </li>
           </ul>

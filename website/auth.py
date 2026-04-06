@@ -150,3 +150,7 @@ def meet_the_team():
 @login_required
 def schedule():
     return render_template("schedule.html", user=current_user)
+
+@auth.route("/gallery")
+def gallery():
+    return render_template("gallery.html", user=current_user)

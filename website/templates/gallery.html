@@ -2,8 +2,141 @@
 {% block title %}Gallery{% endblock %}
 
 {% block content %}
-<br />
 
-<h1 align="center">Gallery</h1>
+<style>
+
+    /* GALLERY LAYOUT */
+    .gallery {
+      column-count: 3;
+      column-gap: 15px;
+      padding: 15px;
+    }
+
+    .gallery img {
+      width: 100%;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      display: block;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1000px) {
+      .gallery { column-count: 3; }
+    }
+
+    @media (max-width: 768px) {
+      .gallery { column-count: 2; }
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding-top: 50px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+      text-align: center;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 10px;
+    }
+
+    .lightbox:target {
+      display: block;
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      font-size: 40px;
+      color: white;
+      text-decoration: none;
+    }
+</style>
+
+<h1 class="text-center mt-4 mb-3">Gallery</h1>
+
+
+  <div class="gallery" id="gallery">
+    <!-- Replace these with your own images -->
+    <img src="{{ url_for('static', filename='images/gallery/gallery1.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery2.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery3.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery4.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery5.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery6.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery7.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery8.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery9.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery10.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery11.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery12.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery13.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery14.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery15.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery16.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery17.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery18.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery19.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery20.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery21.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery22.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery23.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery24.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery25.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery26.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery27.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery28.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery29.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery30.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery31.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery32.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery33.png') }}">
+    <img src="{{ url_for('static', filename='images/gallery/gallery34.png') }}">
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" class="lightbox">
+    <a href="#" class="close">&times;</a>
+    <img id="lightbox-img">
+  </div>
+
+  <script>
+    // 🔀 Shuffle images (Fisher-Yates)
+    const gallery = document.getElementById("gallery");
+    const images = Array.from(gallery.children);
+
+    for (let i = images.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [images[i], images[j]] = [images[j], images[i]];
+    }
+
+    images.forEach(img => gallery.appendChild(img));
+
+    // 🔍 Lightbox functionality
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+
+    images.forEach(img => {
+      img.addEventListener("click", () => {
+        lightbox.style.display = "block";
+        lightboxImg.src = img.src;
+      });
+    });
+
+    lightbox.addEventListener("click", () => {
+      lightbox.style.display = "none";
+    });
+  </script>
 
 {% endblock %}

@@ -62,10 +62,32 @@
       color: white;
       text-decoration: none;
     }
+    
+    .loading {
+      text-align: center;
+      margin-top: 50px;
+    }
+    
+    .spinner {
+      border: 6px solid #eee;
+      border-top: 6px solid #555;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 10px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
 </style>
-
+    
 <h1 class="text-center mt-4 mb-3">Gallery</h1>
-
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Loading gallery... good things take time!</p>
+    </div>
 
   <div class="gallery" id="gallery" style="visibility: hidden;">
     {% for img in images %}
@@ -82,6 +104,7 @@
   <script>
       window.addEventListener("load", () => {
           document.getElementById("gallery").style.visibility = "visible";
+          document.getElementById("loading").style.display = "none";
       });
   
       const lightbox = document.getElementById("lightbox");

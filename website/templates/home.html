@@ -3,11 +3,11 @@
 {% block content %}
 <style>
     .team-strip {
-        background-color: #8E5A8C;
-        padding: 40px 20px;
-        margin-bottom: 30px;
-        color: white;
-        border-radius: 10px;
+        padding: 40px 0;
+        color: black;
+        max-width: 75%;
+        margin: 0 auto;
+        /* border-radius: 10px; */
     }
     
     .team-card-img {
@@ -40,6 +40,11 @@
         aspect-ratio: 1 / 1;
         object-fit: cover;
         border-radius: 10px;
+    }
+    
+    .testtest {
+        width: 50%;
+        margin: 0 auto;
     }
     
     @media (max-width: 576px) {
@@ -82,5 +87,49 @@
         <button type="submit" class="btn btn-primary">Add Note</button>
     </div>
 </form>-->
-<h1 align="center">Home Page!</h1>
+<h1 align="center">Welcome to Rose Qi Dance Arts!</h1>
+
+<div style="width: 67%; margin: 0 auto;">
+  <img src="{{ url_for('static', filename='images/home1.png') }}" 
+       style="border-radius: 10px;"
+       class="img-fluid team-img" 
+       alt="rose!!!">
+</div>
+
+<br />
+
+<h5 class="testtest" align="center">
+  We are a Chinese contemporary dance company based in the DMV area, 
+  dedicated to original dance creations and cultural storytelling 
+  through movement.
+</h5>
+
+<hr style="border: none; height: 2px; background-color: black; width: 75%;">
+
+<div class="team-strip" style="width: 100%;">
+  <div class="container px-5">
+    <div class="row align-items-center g2">
+
+      <div class="col-md-6">
+        <h5 align="center">
+          Our programs welcome artists of all ages—from early dance education 
+          to advanced training—cultivating technique, creativity, and artistic 
+          voice.
+        </h5>
+      </div>
+      
+      <div class="col-md-6">
+        <img src="{{ url_for('static', filename='images/home2.png') }}" 
+             style="border-radius: 10px;"
+             class="img-fluid team-img" 
+             alt="rose!!!">
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<br />
+
 {% endblock %}

@@ -2,8 +2,129 @@
 {% block title %}About Us{% endblock %}
 
 {% block content %}
-<br />
+<style>
+    .team-strip {
+        padding: 40px auto;
+        color: black;
+        /* border-radius: 10px; */
+    }
+    
+    .team-card-img {
+        width: 50%;        /* takes 25% of card width */
+        max-width: 1400px;  /* prevents it from getting too big */
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    
+    .col-12.col-m-6 {
+        display: flex;
+    }
+    
+    .team-card {
+        display: flex;
+        gap: 16px;
+        background-color: #f4c2c2;
+        padding: 20px;
+        border-radius: 10px;
+    
+        /* make desktop cards equal height and vertically center content */
+        align-items: center;
+        height: 100%;  /* will work with flex-fill in parent */
+    }
+    
+    .team-card-img {
+        width: 50%;
+        max-width: 1400px;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    
+    @media (max-width: 576px) {
+        .team-card {
+            flex-direction: column;
+            align-items: center;  /* center horizontally */
+            text-align: center;
+        }
+    
+        .team-card-img {
+            width: 50%;
+            max-width: 180px;
+            margin-bottom: 12px; /* optional spacing below image */
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .team-strip .row {
+            text-align: center;
+        }
+    }
+</style>
 
+<br />
 <h1 align="center">About Us</h1>
+
+<div class="team-strip" style="width: 100%;">
+  <div class="container">
+    <div class="row align-items-center">
+      
+      <div class="col-md-4 text-center">
+        <img src="{{ url_for('static', filename='images/about_us1.png') }}" 
+             style="border-radius: 10px;"
+             class="img-fluid team-img" 
+             alt="rose!!!">
+      </div>
+
+      <div class="col-md-8">
+      <br />
+        <p>
+          RoseQi Dance Arts is a vibrant and dynamic dance creative program 
+          dedicated to nurturing a diverse community of dance enthusiasts, 
+          ranging from professional dancers to nonprofessional adults, 
+          competitive teens, and early training youth. This program specializes 
+          in contemporary and Classical Chinese dance forms, producing original 
+          works that resonate with various audiences. RoseQi Dance Arts has 
+          made significant contributions to numerous stage productions, 
+          encompassing cultural events, educational exchanges, dance dramas, 
+          competitions, and community services.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<hr style="border: none; height: 2px; background-color: black; width: 75%;">
+
+<div class="team-strip" style="width: 100%;">
+  <div class="container">
+    <div class="row align-items-center">
+
+      <div class="col-md-8">
+        <p>
+          Under the visionary leadership of director and choreographer Rose 
+          Xinran Qi, the organization‘s choreography uniquely blends Chinese 
+          and Western dance styles, emphasizing storytelling that draws from 
+          both personal experiences and broader narratives that inspire and 
+          impact her work. Through this innovative approach, RoseQi Dance Arts 
+          not only celebrates the beauty of dance but also fosters cultural 
+          exchange and artistic expression.
+        </p>
+      </div>
+      
+      <div class="col-md-4 text-center">
+        <img src="{{ url_for('static', filename='images/about_us2.png') }}" 
+             style="border-radius: 10px;"
+             class="img-fluid team-img" 
+             alt="rose!!!">
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<br />
 
 {% endblock %}

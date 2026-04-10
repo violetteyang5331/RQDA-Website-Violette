@@ -1,6 +1,68 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %}
 
 {% block content %}
+<style>
+    .team-strip {
+        background-color: #8E5A8C;
+        padding: 40px 20px;
+        margin-bottom: 30px;
+        color: white;
+        border-radius: 10px;
+    }
+    
+    .team-card-img {
+        width: 50%;        /* takes 25% of card width */
+        max-width: 1400px;  /* prevents it from getting too big */
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    
+    .col-12.col-m-6 {
+        display: flex;
+    }
+    
+    .team-card {
+        display: flex;
+        gap: 16px;
+        background-color: #f4c2c2;
+        padding: 20px;
+        border-radius: 10px;
+    
+        /* make desktop cards equal height and vertically center content */
+        align-items: center;
+        height: 100%;  /* will work with flex-fill in parent */
+    }
+    
+    .team-card-img {
+        width: 50%;
+        max-width: 1400px;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    
+    @media (max-width: 576px) {
+        .team-card {
+            flex-direction: column;
+            align-items: center;  /* center horizontally */
+            text-align: center;
+        }
+    
+        .team-card-img {
+            width: 50%;
+            max-width: 180px;
+            margin-bottom: 12px; /* optional spacing below image */
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .team-strip .row {
+            text-align: center;
+        }
+    }
+</style>
+
 <br />
 <!--
 <h1 align="center">Notes</h1>

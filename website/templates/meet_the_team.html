@@ -19,28 +19,26 @@
         border-radius: 10px;
     }
     
-    .col-12.col-m-6 {
-        display: flex;
-    }
-    
     .team-card {
-        display: flex;
-        gap: 16px;
         background-color: #f4c2c2;
         padding: 20px;
         border-radius: 10px;
     
-        /* make desktop cards equal height and vertically center content */
+        display: flex;
+        flex-direction: column;   /* KEY CHANGE */
         align-items: center;
-        height: 100%;  /* will work with flex-fill in parent */
-    }
+        text-align: center;
     
+        height: 100%;
+    }
+
     .team-card-img {
-        width: 50%;
-        max-width: 1400px;
+        width: 100%;
+        max-width: 220px;
         aspect-ratio: 1 / 1;
         object-fit: cover;
         border-radius: 10px;
+        margin-bottom: 12px;
     }
     
     @media (max-width: 576px) {
@@ -85,15 +83,41 @@
       <br />
         <h3>Rose Xinran Qi, Director and Choreographer</h3>
         <p>
-         Rose Xinran Qi is an independent dance artist, choreographer, and educator with over 20 years of professional dance training. She has performed nationally and internationally, collaborating with various companies, artistic organizations, and independent artists. Her performances have been presented at major venues including the Sydney Opera House, Kennedy Center Opera House, the National Centre for the Performing Arts in Beijing, the Great Hall of the People, Shanghai Grand Theatre, The O2 London, Singapore Kallang Theatre, and Hong Kong Tuen Mun Town Hall, among others. Rose holds a BFA from Shanxi Academy of the Arts in China and an MFA from the University of Maryland.
+         Rose Xinran Qi is an independent dance artist, choreographer, and 
+         educator with over 20 years of professional dance training. She has 
+         performed nationally and internationally, collaborating with various 
+         companies, artistic organizations, and independent artists. Her 
+         performances have been presented at major venues including the Sydney 
+         Opera House, Kennedy Center Opera House, the National Centre for the 
+         Performing Arts in Beijing, the Great Hall of the People, Shanghai 
+         Grand Theatre, The O2 London, Singapore Kallang Theatre, and Hong 
+         Kong Tuen Mun Town Hall, among others. Rose holds a BFA from Shanxi 
+         Academy of the Arts in China and an MFA from the University of 
+         Maryland.
         </p>
         
         <p>
-        Based in the Washington DC–Maryland–Virginia (DMV) region, Rose works with dancers across a wide range of educational settings, including community programs, higher education institutions, and private and public dance schools. She teaches dancers at all stages of development—from early childhood and youth pre-professional training to adult community practice. Her teaching philosophy combines strong technical foundations with creative exploration, encouraging dancers to cultivate discipline, curiosity, and an authentic artistic voice.
+        Based in the Washington DC–Maryland–Virginia (DMV) region, Rose works 
+        with dancers across a wide range of educational settings, including 
+        community programs, higher education institutions, and private and 
+        public dance schools. She teaches dancers at all stages of 
+        development—from early childhood and youth pre-professional training 
+        to adult community practice. Her teaching philosophy combines strong 
+        technical foundations with creative exploration, encouraging dancers 
+        to cultivate discipline, curiosity, and an authentic artistic voice.
         </p>
 
         <p>
-        As the founder and director of RoseQi Dance Arts, Rose leads artistic projects that include choreography, artistic direction, production, and interdisciplinary collaboration. Through performances, workshops, and educational partnerships, she actively promotes international and cross-cultural dialogue within both academic institutions and community organizations. Her choreography frequently explores themes of women’s strength, cultural memory, and identity, including works such as Ghost Bride. Through her artistic practice, Rose seeks to build bridges between cultures and create meaningful connections through movement and storytelling.
+        As the founder and director of RoseQi Dance Arts, Rose leads artistic 
+        projects that include choreography, artistic direction, production, 
+        and interdisciplinary collaboration. Through performances, workshops, 
+        and educational partnerships, she actively promotes international and 
+        cross-cultural dialogue within both academic institutions and community 
+        organizations. Her choreography frequently explores themes of women’s 
+        strength, cultural memory, and identity, including works such as Ghost 
+        Bride. Through her artistic practice, Rose seeks to build bridges 
+        between cultures and create meaningful connections through movement 
+        and storytelling.
         </p>
       </div>
 
@@ -103,56 +127,97 @@
 
 <div class="container my-5">
   <div class="row g-4">
+  
+      <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 25px">
+        <div class="team-card flex-fill">
+          <img src="{{ url_for('static', filename='images/random_ella_and_elisa.png') }}"
+               class="team-card-img"
+               alt="person2">
 
-    <!-- Person 1 -->
-    <div class="col-12 col-md-6" style="margin-bottom: 25px">
+            <h4 class="mb-1">Elisa Yue</h4>
+            <p class="mb-0">
+              Junior, Centennial High School
+            </p>
+        </div>
+      </div>
+      
+      <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 25px">
+        <div class="team-card flex-fill">
+          <img src="{{ url_for('static', filename='images/fiona.png') }}"
+               class="team-card-img"
+               alt="person2">
+
+            <h4 class="mb-1">Fiona Zheng</h4>
+            <p class="mb-0">
+              Junior, Centennial High School
+            </p>
+        </div>
+      </div>
+
+    <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 25px">
       <div class="team-card flex-fill">
         <img src="{{ url_for('static', filename='images/random_callie_and_melinda.png') }}"
              class="team-card-img"
              alt="person1">
 
-        <div class="ms-3">
-          <h4 class="mb-1">Callie and Melinda</h4>
+          <h4 class="mb-1">Melinda Liu</h4>
           <p class="mb-0">
-            im pretty sure this picture was from nationals last year :D waiting for solo awards?
+            Sophomore, Centennial High School
           </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Person 2 -->
-    <div class="col-12 col-md-6" style="margin-bottom: 25px">
-      <div class="team-card flex-fill">
-        <img src="{{ url_for('static', filename='images/random_ella_and_elisa.png') }}"
-             class="team-card-img"
-             alt="person2">
-
-        <div class="ms-3">
-          <h4 class="mb-1">Ella and Elisa</h4>
-          <p class="mb-0">
-            ella didn't have her phone for a day lol
-          </p>
-        </div>
       </div>
     </div>
     
-    <!-- Person 3 -->
-    <div class="col-12 col-md-6" style="margin-bottom: 25px">
+    <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 25px">
       <div class="team-card flex-fill">
-        <img src="{{ url_for('static', filename='images/random_violette_and_ella.png') }}"
+        <img src="{{ url_for('static', filename='images/violette.png') }}"
              class="team-card-img"
              alt="person2">
 
-        <div class="ms-3">
-          <h4 class="mb-1">Violette and Ella</h4>
+          <h4 class="mb-1">Violette Yang</h4>
           <p class="mb-0">
-            for purposes of seeing if this margin is good... this pic was from so long ago 🥹
+            Freshman, River Hill High School
           </p>
-        </div>
       </div>
     </div>
+    
+    <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 25px">
+      <div class="team-card flex-fill">
+        <img src="{{ url_for('static', filename='images/random_callie_and_melinda.png') }}"
+             class="team-card-img"
+             alt="person1">
 
-    <!-- Add more people the same way -->
+          <h4 class="mb-1">Callie Chen</h4>
+          <p class="mb-0">
+            Freshman, Marriotts Ridge High School
+          </p>
+      </div>
+    </div>
+    
+    <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 25px">
+      <div class="team-card flex-fill">
+        <img src="{{ url_for('static', filename='images/random_violette_and_ella.png') }}"
+             class="team-card-img"
+             alt="person1">
+
+          <h4 class="mb-1">Audrey Liu</h4>
+          <p class="mb-0">
+            Freshman, Marriotts Ridge High School
+          </p>
+      </div>
+    </div>
+    
+    <div class="col-12 col-md-6 col-lg-4 mx-auto" style="margin-bottom: 25px">
+      <div class="team-card flex-fill">
+        <img src="{{ url_for('static', filename='images/ella.png') }}"
+             class="team-card-img"
+             alt="person2">
+
+          <h4 class="mb-1">Ella Li</h4>
+          <p class="mb-0">
+            7th Grade, Mount View Middle School
+          </p>
+      </div>
+    </div>
 
   </div>
 </div>

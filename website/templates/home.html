@@ -47,6 +47,11 @@
         margin: 0 auto;
     }
     
+    .home-imgs {
+        margin: 0 auto;
+        width: 67%;
+    }
+    
     @media (max-width: 576px) {
         .team-card {
             flex-direction: column;
@@ -74,6 +79,10 @@
         .team-strip .row {
             text-align: center;
         }
+        
+        .home-imgs {
+            width: 90%;
+        }
     }
 </style>
 
@@ -98,7 +107,7 @@
 </form>-->
 <h1 align="center">Welcome to Rose Qi Dance Arts!</h1>
 
-<div style="width: 67%; margin: 0 auto;">
+<div class="home-imgs">
   <img src="{{ url_for('static', filename='images/home1a.png') }}" 
        style="border-radius: 10px;"
        class="img-fluid team-img" 
@@ -121,23 +130,13 @@
   voice.
 </h5>
 
-<div class="team-strip" style="width: 100%;">
-  <div class="container px-5">
-    <div class="row align-items-center gy-4">
+<br />
 
-      <div class="col-md-6">
-        <img src="{{ url_for('static', filename='images/home2.png') }}" 
-             style="border-radius: 10px;"
-             class="img-fluid team-img" 
-             alt="rose!!!">
-      </div>
-            
-      <div class="col-md-6">
-        <h5 align="center">adult photo here</h5>
-      </div>
-
-    </div>
-  </div>
+<div class="home-imgs">
+  <img src="{{ url_for('static', filename='images/home2.png') }}" 
+       style="border-radius: 10px;"
+       class="img-fluid team-img" 
+       alt="rose!!!">
 </div>
 
 <br />

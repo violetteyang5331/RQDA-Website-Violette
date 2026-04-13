@@ -8,56 +8,6 @@ import random
 
 auth = Blueprint("auth", __name__)
 
-# Dancer dictionaries for each level
-TEST_USERS = [
-    
-]
-
-TEEN_DANCERS = [
-    {"first_name": "Violette", "last_name": "Yang", "birthday": "02-09", "account": False},
-    {"first_name": "Test", "last_name": "User", "birthday": "01-01", "account": False}
-]
-
-ADULT_DANCERS = [
-    # Add adult dancers here
-]
-
-JUNIOR_DANCERS = [
-    # Add junior dancers here
-]
-
-MINI_DANCERS = [
-    # Add mini dancers here
-]
-
-DANCER_LISTS = {
-    "test": TEST_USERS,
-    "teen": TEEN_DANCERS,
-    "adult": ADULT_DANCERS,
-    "junior": JUNIOR_DANCERS,
-    "mini": MINI_DANCERS
-}
-
-# Check if a dancer exists in the official list
-def is_valid_dancer(level, first_name, last_name, birthday):
-    dancers = DANCER_LISTS.get(level, [])
-    for dancer in dancers:
-        if (dancer["first_name"] == first_name and
-            dancer["last_name"] == last_name and
-            dancer["birthday"] == birthday):
-            return True
-    return False
-
-# Check if a dancer already has an account
-def has_account(level, first_name, last_name, birthday):
-    dancers = DANCER_LISTS.get(level, [])
-    for dancer in dancers:
-        if (dancer["first_name"] == first_name and
-            dancer["last_name"] == last_name and
-            dancer["birthday"] == birthday):
-            return dancer.get("account", False)
-    return False
-
 @auth.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -87,7 +37,6 @@ def sign_up():
         email = request.form.get("email")
         first_name = request.form.get("firstName")
         last_name = request.form.get("lastName")
-        birthday = request.form.get("birthday_md")
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
 
@@ -96,23 +45,20 @@ def sign_up():
             flash("Please select an RQDA level.", category="error")
         elif not email or len(email) < 4 or "@" not in email:
             flash("Please enter a valid email address.", category="error")
-        elif not first_name or len(first_name) < 2:
+        elif not first_name or len(first_name) < 1:
             flash("First name must be at least 2 characters.", category="error")
-        elif not last_name or len(last_name) < 2:
+        elif not last_name or len(last_name) < 1:
             flash("Last name must be at least 2 characters.", category="error")
-        elif len(password1) < 6:
+        elif len(password1) < 5:
             flash("Password must be at least 6 characters.", category="error")
         elif password1 != password2:
             flash("Passwords must match.", category="error")
         else:
             # Check duplicates: email or dancer identity
             user_email_exists = User.query.filter_by(email=email).first()
-            dancer_has_account = has_account(rqda_level, first_name, last_name, birthday)
 
-            if user_email_exists or dancer_has_account:
-                flash("An account with this email or dancer info already exists.", category="error")
-            elif not is_valid_dancer(rqda_level, first_name, last_name, birthday):
-                flash("Not a valid dancer, please check your information.", category="error")
+            if user_email_exists:
+                flash("An account with this email already exists.", category="error")
             else:
                 # Create new user
                 new_user = User(
@@ -124,15 +70,6 @@ def sign_up():
                 )
                 db.session.add(new_user)
                 db.session.commit()
-
-                # Mark dancer as having an account
-                dancers = DANCER_LISTS[rqda_level]
-                for dancer in dancers:
-                    if (dancer["first_name"] == first_name and
-                        dancer["last_name"] == last_name and
-                        dancer["birthday"] == birthday):
-                        dancer["account"] = True
-                        break
 
                 flash("Account created!", category="success")
                 login_user(new_user, remember=True)

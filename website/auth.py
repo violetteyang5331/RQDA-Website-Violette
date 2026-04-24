@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from .models import User
+from .models import User, Schedule
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
@@ -88,10 +88,54 @@ def meet_the_team():
 @auth.route("/schedule")
 @login_required
 def schedule():
-    return render_template("schedule.html", user=current_user)
+    user_schedule = Schedule.query.filter_by(
+        class_level=current_user.rqda_level
+    ).first()
+
+    return render_template(
+        "schedule.html",
+        user=current_user,
+        schedule=user_schedule
+    )
+
+@auth.route("/edit_schedule", methods=["GET", "POST"])
+@login_required
+def edit_schedule():
+    if current_user.rqda_level != "Rose":
+        flash("You do not have permission to edit schedules.", "error")
+        return redirect(url_for("auth.schedule"))
+
+    if request.method == "POST":
+        class_level = request.form.get("class_level")
+        content = request.form.get("content")
+
+        schedule = Schedule.query.filter_by(class_level=class_level).first()
+
+        if schedule:
+            schedule.content = content
+        else:
+            schedule = Schedule(class_level=class_level, content=content)
+            db.session.add(schedule)
+
+        db.session.commit()
+        flash("Schedule updated!", "success")
+
+    schedules = Schedule.query.all()
+    return render_template("edit_schedule.html", schedules=schedules, user=current_user)
+
+@auth.route('/delete-schedule/<int:id>', methods=['POST'])
+@login_required
+def delete_schedule(id):
+    schedule = Schedule.query.get(id)
+    
+    if schedule:
+        db.session.delete(schedule)
+        db.session.commit()
+    
+    return redirect(url_for('auth.edit_schedule'))
 
 @auth.route("/gallery")
 def gallery():
-    images = [f"gallery/gallery{i}.png" for i in range(1, 60)]
+    images = [f"gallery/gallery{i}.png" for i in range(1, 61)]
     random.shuffle(images)
     return render_template("gallery.html", user=current_user, images=images)

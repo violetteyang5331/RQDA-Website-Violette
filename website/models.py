@@ -15,3 +15,8 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(150))
     last_name = db.Column(db.String(150))
     rqda_level = db.Column(db.String(150))
+    
+class Schedule(db.Model):
+   id = db.Column(db.Integer, primary_key=True)
+   class_level = db.Column(db.String(50))
+   content = db.Column(db.Text)

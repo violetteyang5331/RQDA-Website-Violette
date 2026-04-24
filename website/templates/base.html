@@ -266,9 +266,15 @@
           <!-- RIGHT -->
           <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
-            <li class="nav-item">
-                <a class="nav-link" href="/schedule">{{ user.first_name }}'s Schedule</a>
-            </li>
+                {% if user.rqda_level == "Rose" %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/edit_schedule">Edit Schedules</a>
+                    </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/schedule">{{ user.first_name }}'s Schedule</a>
+                </li>
+                {% endif %}
             <li class="nav-item">
               <a class="nav-link" href="/logout">Logout</a>
             </li>
@@ -326,7 +332,7 @@
     <footer>
       <div class="footer-content">
         <p>Author: Violette Yang</p>
-        <p><a href="mailto:hege@example.com">actualemailhere@gmail.com</a></p>
+        <p><a href="mailto:rosexinranqi@gmail.com">rosexinranqi@gmail.com</a></p>
         <p><a href="https://www.instagram.com/roseqi_dance_arts_/">Instagram: @roseqi_dance_arts_</a></p>
         <a href="https://github.com/violetteyang5331/RQDA-Website-Violette" target="_blank">
         <img src="{{ url_for('static', filename='images/github_white.png') }}" 

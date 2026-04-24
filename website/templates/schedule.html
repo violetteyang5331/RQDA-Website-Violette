@@ -6,4 +6,20 @@
 
 <h1 align="center">Schedule</h1>
 
+<h2>Your Schedule ({{ user.rqda_level }})</h2>
+
+{% if schedule %}
+    <p>{{ schedule.content }}</p>
+{% else %}
+    <p>No schedule available.</p>
+{% endif %}
+
+{% if user.rqda_level == "Rose" %}
+    <form action="{{ url_for('auth.edit_schedule') }}" method="get">
+        <button type="submit" class="btn btn-primary px-4" style="background-color: #8E5A8C; border-color: #8E5A8C">
+            Edit Schedules
+        </button>
+    </form>
+{% endif %}
+
 {% endblock %}

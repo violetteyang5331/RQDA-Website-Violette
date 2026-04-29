@@ -136,6 +136,6 @@ def delete_schedule(id):
 
 @auth.route("/gallery")
 def gallery():
-    images = [f"gallery/gallery{i}.png" for i in range(1, 61)]
+    images = [f"gallery/gallery{i}.png" for i in range(1, 52)]
     random.shuffle(images)
     return render_template("gallery.html", user=current_user, images=images)

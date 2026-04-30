@@ -134,7 +134,9 @@
 {% else %}
     <p>No schedule available.</p>
 {% endif %}
+{% endif %}
 
+{% if password_index != -1 %}
 <div style="text-align: center;">
 <form method="POST" action="{{ url_for('auth.reset_schedule_access') }}">
     <button class="btn btn-primary" style="background-color: #8E5A8C; border-color: #8E5A8C">

@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from .models import User, Schedule
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 
+import os
 import random
 
 auth = Blueprint("auth", __name__)
@@ -85,26 +86,78 @@ def about_us():
 def meet_the_team():
     return render_template("meet_the_team.html", user=current_user)
 
-@auth.route("/schedule")
-@login_required
+@auth.route("/schedule", methods=["GET", "POST"])
 def schedule():
-    user_schedule = Schedule.query.filter_by(
-        class_level=current_user.rqda_level
-    ).first()
+    password_map = {
+        os.getenv("ADULT_PASSWORD"): 0,
+        os.getenv("TEEN_PASSWORD"): 1,
+        os.getenv("JUNIOR_PASSWORD"): 2,
+        os.getenv("MINI_PASSWORD"): 3,
+        os.getenv("ROSE_PASSWORD"): 4
+    }
+
+    level_map = {
+        0: "Adult",
+        1: "Teen",
+        2: "Junior",
+        3: "Mini"
+    }
+
+    if request.method == "POST":
+        entered = request.form.get("schedule_password")
+
+        # Handle edit form submission (Rose view)
+        if request.form.get("class_level"):
+            class_level = request.form.get("class_level")
+            content = request.form.get("content")
+            s = Schedule.query.filter_by(class_level=class_level).first()
+            if s:
+                s.content = content
+            else:
+                s = Schedule(class_level=class_level, content=content)
+                db.session.add(s)
+            db.session.commit()
+            flash("Schedule updated!", "success")
+
+        elif entered and entered in password_map:
+            session["password_index"] = password_map[entered]
+            flash("Access granted", "success")
+        else:
+            session["password_index"] = -1
+            flash("Incorrect password", "error")
+
+    password_index = session.get("password_index", -1)
+
+    schedule = None
+    if password_index in level_map:
+        schedule = Schedule.query.filter_by(class_level=level_map[password_index]).first()
+
+    schedules = Schedule.query.all() if password_index == 4 else []
 
     return render_template(
         "schedule.html",
         user=current_user,
-        schedule=user_schedule
+        password_index=password_index,
+        schedule=schedule,
+        schedules=schedules
     )
 
-@auth.route("/edit_schedule", methods=["GET", "POST"])
-@login_required
-def edit_schedule():
-    if current_user.rqda_level != "Rose":
-        flash("You do not have permission to edit schedules.", "error")
-        return redirect(url_for("auth.schedule"))
+@auth.route('/delete-schedule/<int:id>', methods=['POST'])
+def delete_schedule(id):
+    schedule = Schedule.query.get(id)
+    if schedule:
+        db.session.delete(schedule)
+        db.session.commit()
+    return redirect(url_for('auth.schedule'))  # back to schedule, not edit_schedule
 
+@auth.route("/reset_schedule_access", methods=["POST"])
+def reset_schedule_access():
+    session["password_index"] = -1
+    flash("Access reset", "success")
+    return redirect(url_for("auth.schedule"))
+
+@auth.route("/edit_schedule", methods=["GET", "POST"])
+def edit_schedule():
     if request.method == "POST":
         class_level = request.form.get("class_level")
         content = request.form.get("content")
@@ -121,18 +174,11 @@ def edit_schedule():
         flash("Schedule updated!", "success")
 
     schedules = Schedule.query.all()
-    return render_template("edit_schedule.html", schedules=schedules, user=current_user)
-
-@auth.route('/delete-schedule/<int:id>', methods=['POST'])
-@login_required
-def delete_schedule(id):
-    schedule = Schedule.query.get(id)
-    
-    if schedule:
-        db.session.delete(schedule)
-        db.session.commit()
-    
-    return redirect(url_for('auth.edit_schedule'))
+    schedules_json = [
+        {"id": s.id, "class_level": s.class_level, "content": s.content}
+        for s in schedules
+    ]
+    return render_template("edit_schedule.html", schedules=schedules, schedules_json=schedules_json, user=current_user)
 
 @auth.route("/gallery")
 def gallery():

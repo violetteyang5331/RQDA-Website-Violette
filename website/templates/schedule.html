@@ -3,9 +3,9 @@
 
 {% block content %}
 <br />
+<div class="container col-lg-6 col-md-8 col-sm-10">
 
-<h1 align="center">Schedule</h1>
-
+<!--
 <h2>Your Schedule ({{ user.rqda_level }})</h2>
 
 {% if schedule %}
@@ -21,5 +21,143 @@
         </button>
     </form>
 {% endif %}
+-->
 
+{% if password_index == -1 %}
+<h1 align="center">Schedule</h1>
+
+<form method="POST">
+  <div class="row justify-content-center">
+    <div class="form-group">
+      <input 
+        type="text" 
+        class="form-control" 
+        name="schedule_password" 
+        placeholder="Enter Schedule Password"
+      />
+    </div>
+  </div>
+</form>
+
+{% elif password_index == 0 %}
+    <h1 align="center">Adult Schedule</h1>
+
+{% elif password_index == 1 %}
+    <h1 align="center">Teen Schedule</h1>
+
+{% elif password_index == 2 %}
+    <h1 align="center">Junior Schedule</h1>
+
+{% elif password_index == 3 %}
+    <h1 align="center">Mini Schedule</h1>
+    
+{% elif password_index == 4 %}
+    <h1 align="center">Edit Schedules</h1>
+    <form method="POST" style="max-width: 600px; margin: auto;">
+        <!-- Class dropdown -->
+        <div class="form-group">
+            <label for="class_level">Class Level</label>
+            <select name="class_level" id="class_level" class="form-control" required onchange="loadSchedule()">
+                <option value="">Select class</option>
+                <option value="Adult">Adult</option>
+                <option value="Teen">Teen</option>
+                <option value="Junior">Junior</option>
+                <option value="Mini">Mini</option>
+            </select>
+        </div>
+        <!-- Textarea -->
+        <div class="form-group">
+            <label for="content">Schedule Content</label>
+            <textarea
+                name="content"
+                id="content"
+                class="form-control"
+                rows="6"
+                placeholder="Select a class to load schedule..."
+                required></textarea>
+        </div>
+        <div style="text-align: center;">
+            <button type="submit" class="btn btn-primary" style="background-color: #8E5A8C; border-color: #8E5A8C">
+                Save Schedule
+            </button>
+        </div>
+    </form>   <!-- ✅ Close the save form here, before the schedules section -->
+
+    <br>
+    <h2 align="center">Current Schedules</h2>
+    <div style="max-width: 600px; margin: auto;">
+        {% for schedule in schedules %}
+            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 6px; position: relative;">
+                
+                <!-- Delete button (top-right) — now in its own standalone form, no nesting -->
+                <form method="POST" action="{{ url_for('auth.delete_schedule', id=schedule.id) }}"
+                      onsubmit="return confirm('Delete this schedule?')"
+                      style="position: absolute; top: 8px; right: 8px;">
+                    <button type="submit" 
+                            style="background-color: #dc3545; color: white; border: none; padding: 4px 8px; border-radius: 4px;">
+                        ✕
+                    </button>
+                </form>
+
+                <strong>{{ schedule.class_level }}</strong>
+                <p style="white-space: pre-wrap; margin-top: 5px;">{{ schedule.content }}</p>
+            </div>
+        {% else %}
+            <p>No schedules yet.</p>
+        {% endfor %}
+    </div>
+
+    <br>
+
+    <script>
+        const schedules = {
+            {% for schedule in schedules %}
+                "{{ schedule.class_level }}": {{ schedule.content | tojson }},
+            {% endfor %}
+        };
+        function loadSchedule() {
+            const selected = document.getElementById("class_level").value;
+            const textarea = document.getElementById("content");
+            if (schedules[selected]) {
+                textarea.value = schedules[selected];
+            } else {
+                textarea.value = "";
+            }
+        }
+    </script>
+
+{% endif %}
+
+{% if password_index != -1 and password_index != 4%}
+{% if schedule %}
+    <p>{{ schedule.content }}</p>
+{% else %}
+    <p>No schedule available.</p>
+{% endif %}
+
+<div style="text-align: center;">
+<form method="POST" action="{{ url_for('auth.reset_schedule_access') }}">
+    <button class="btn btn-primary" style="background-color: #8E5A8C; border-color: #8E5A8C">
+        Back
+    </button>
+</form>
+</div>
+<br />
+{% endif %}
+
+<!--
+
+<div class="row justify-content-center">
+
+<br />
+
+<form action="{{ url_for('auth.edit_schedule') }}" method="get" style="align: center">
+
+    <button type="submit" class="btn btn-primary px-4" style="background-color: #8E5A8C; border-color: #8E5A8C">
+        Edit Schedules
+    </button>
+</form>
+</div>
+-->
+</div>
 {% endblock %}

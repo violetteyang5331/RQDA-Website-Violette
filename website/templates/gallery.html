@@ -1,34 +1,39 @@
 {% extends "base.html" %} 
 {% block title %}Gallery{% endblock %}
-
 {% block content %}
-
 <style>
-
     /* GALLERY LAYOUT */
     .gallery {
       column-count: 3;
       column-gap: 15px;
       padding: 15px;
     }
+    /* RESPONSIVE */
+    @media (max-width: 1000px) {
+      .gallery { column-count: 3; }
+    }
+    @media (max-width: 768px) {
+      .gallery { column-count: 2; }
+    }
 
+    /* BLUR-UP */
     .gallery img {
       width: 100%;
       margin-bottom: 15px;
       border-radius: 12px;
       cursor: pointer;
-      transition: transform 0.2s ease;
       display: block;
+      filter: blur(10px);
+      transition: filter 0.4s ease, transform 0.2s ease;
     }
-
-    /* RESPONSIVE */
-    @media (max-width: 1000px) {
-      .gallery { column-count: 3; }
+    .gallery img.loaded {
+      filter: blur(0);
     }
-
-    @media (max-width: 768px) {
-      .gallery { column-count: 2; }
+    /*
+    .gallery img:hover {
+      transform: scale(1.02);
     }
+    */
 
     /* LIGHTBOX */
     .lightbox {
@@ -43,17 +48,12 @@
       background-color: rgba(0,0,0,0.9);
       text-align: center;
     }
-
     .lightbox img {
       max-width: 90%;
       max-height: 80%;
       border-radius: 10px;
+      filter: none;
     }
-
-    .lightbox:target {
-      display: block;
-    }
-
     .close {
       position: absolute;
       top: 20px;
@@ -61,66 +61,58 @@
       font-size: 40px;
       color: white;
       text-decoration: none;
-    }
-    
-    .loading {
-      text-align: center;
-      margin-top: 50px;
-    }
-    
-    .spinner {
-      border: 6px solid #eee;
-      border-top: 6px solid #555;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      margin: 0 auto 10px;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      100% { transform: rotate(360deg); }
+      cursor: pointer;
     }
 </style>
-    
+
 <h1 class="text-center mt-4 mb-3">Gallery</h1>
-    <div id="loading" class="loading">
-      <div class="spinner"></div>
-      <p>Loading gallery... good things take time!</p>
-    </div>
 
-  <div class="gallery" id="gallery" style="visibility: hidden;">
-    {% for img in images %}
-        <img src="{{ url_for('static', filename='images/' + img) }}">
-    {% endfor %}
-  </div>
+<div class="gallery" id="gallery">
+  {% for img in images %}
+    <img
+      src="{{ url_for('static', filename='images/' + img.replace('.webp', '_placeholder.webp')) }}"
+      data-src="{{ url_for('static', filename='images/' + img) }}"
+      class="blurry">
+  {% endfor %}
+</div>
 
-  <!-- LIGHTBOX -->
-  <div id="lightbox" class="lightbox">
-    <a href="#" class="close">&times;</a>
-    <img id="lightbox-img">
-  </div>
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox">
+  <span class="close">&times;</span>
+  <img id="lightbox-img">
+</div>
 
-  <script>
-      window.addEventListener("load", () => {
-          document.getElementById("gallery").style.visibility = "visible";
-          document.getElementById("loading").style.display = "none";
-      });
-  
-      const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-  
-    const galleryImages = document.querySelectorAll("#gallery img");
-    
-    galleryImages.forEach(img => {
-        img.addEventListener("click", () => {
-            lightbox.style.display = "block";
-            lightboxImg.src = img.src;
-        });
+<script>
+  // Blur-up: swap placeholder → full image when loaded
+  document.querySelectorAll("img.blurry").forEach(img => {
+    const full = new Image();
+    full.src = img.dataset.src;
+    full.onload = () => {
+      img.src = img.dataset.src;
+      img.classList.add("loaded");
+    };
+  });
+
+  // Lightbox
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img");
+
+  document.querySelectorAll("#gallery img").forEach(img => {
+    img.addEventListener("click", () => {
+      // Show full image in lightbox, not placeholder
+      lightboxImg.src = img.dataset.src || img.src;
+      lightbox.style.display = "block";
     });
-    lightbox.addEventListener("click", () => {
+  });
+
+  document.querySelector(".close").addEventListener("click", () => {
+    lightbox.style.display = "none";
+  });
+
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) {
       lightbox.style.display = "none";
-    });
-  </script>
-
+    }
+  });
+</script>
 {% endblock %}

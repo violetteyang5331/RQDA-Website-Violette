@@ -3,6 +3,7 @@ from .models import User, Schedule
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
+from PIL import Image
 
 import os
 import random
@@ -121,7 +122,7 @@ def schedule():
 
         elif entered and entered in password_map:
             session["password_index"] = password_map[entered]
-            flash("Access granted", "success")
+            # flash("Access granted", "success")
         else:
             session["password_index"] = -1
             flash("Incorrect password", "error")
@@ -153,7 +154,7 @@ def delete_schedule(id):
 @auth.route("/reset_schedule_access", methods=["POST"])
 def reset_schedule_access():
     session["password_index"] = -1
-    flash("Access reset", "success")
+    # flash("Access reset", "success")
     return redirect(url_for("auth.schedule"))
 
 @auth.route("/edit_schedule", methods=["GET", "POST"])
@@ -182,6 +183,6 @@ def edit_schedule():
 
 @auth.route("/gallery")
 def gallery():
-    images = [f"gallery/gallery{i}.png" for i in range(1, 52)]
+    images = [f"gallery/gallery{i}.webp" for i in range(1, 52)]
     random.shuffle(images)
     return render_template("gallery.html", user=current_user, images=images)

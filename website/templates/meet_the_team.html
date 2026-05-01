@@ -60,6 +60,10 @@
             text-align: center;
         }
     }
+    
+    .divider {
+        height:20px;
+    }
 </style>
 
 <br />
@@ -126,11 +130,12 @@
 </div>
 
 <div class="container my-5">
+<h2 align="center">Competition Team</h2>
   <div class="row g-4">
   
       <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 25px">
         <div class="team-card flex-fill">
-          <img src="{{ url_for('static', filename='images/random_ella_and_elisa.png') }}"
+          <img src="{{ url_for('static', filename='images/logo_white_bg.png') }}"
                class="team-card-img"
                alt="person2">
 
@@ -156,7 +161,7 @@
 
     <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 25px">
       <div class="team-card flex-fill">
-        <img src="{{ url_for('static', filename='images/random_callie_and_melinda.png') }}"
+        <img src="{{ url_for('static', filename='images/melinda.png') }}"
              class="team-card-img"
              alt="person1">
 
@@ -195,7 +200,7 @@
     
     <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 25px">
       <div class="team-card flex-fill">
-        <img src="{{ url_for('static', filename='images/random_violette_and_ella.png') }}"
+        <img src="{{ url_for('static', filename='images/logo_white_bg.png') }}"
              class="team-card-img"
              alt="person1">
 
@@ -206,7 +211,7 @@
       </div>
     </div>
     
-    <div class="col-12 col-md-6 col-lg-4 mx-auto" style="margin-bottom: 25px">
+    <div class="col-12 col-md-6 col-lg-4 mx-auto">
       <div class="team-card flex-fill">
         <img src="{{ url_for('static', filename='images/ella.png') }}"
              class="team-card-img"
@@ -218,8 +223,82 @@
           </p>
       </div>
     </div>
-
   </div>
+</div>
+
+<div align="center">
+<img src="{{ url_for('static', filename='images/divider.png') }}" 
+    class="divider">
+</div>
+
+<div class="container my-5">
+    <div class="row g-4">
+        <div class="col-12 col-md-6 col-lg-4 mx-auto" style="margin-bottom: 25px">
+          <div class="team-card flex-fill">
+            <img src="{{ url_for('static', filename='images/logo_white_bg.png') }}"
+                 class="team-card-img"
+                 alt="person2">
+
+              <h4 class="mb-1">Charlotte</h4>
+              <p class="mb-0">
+                Junior Competition Team
+              </p>
+          </div>
+        </div>
+        
+        <div class="col-12 col-md-6 col-lg-4 mx-auto" style="margin-bottom: 25px">
+          <div class="team-card flex-fill">
+            <img src="{{ url_for('static', filename='images/logo_white_bg.png') }}"
+                 class="team-card-img"
+                 alt="person2">
+
+              <h4 class="mb-1">Zoe</h4>
+              <p class="mb-0">
+                Junior Competition Team
+              </p>
+          </div>
+        </div>
+        
+        <div class="col-12 col-md-6 col-lg-4 mx-auto" style="margin-bottom: 25px">
+          <div class="team-card flex-fill">
+            <img src="{{ url_for('static', filename='images/charlotte.webp') }}"
+                 class="team-card-img"
+                 alt="person2">
+
+              <h4 class="mb-1">Charlotte</h4>
+              <p class="mb-0">
+                Junior Competition Team
+              </p>
+          </div>
+        </div>
+        
+        <div class="col-12 col-md-6 col-lg-4 mx-auto" style="margin-bottom: 25px">
+          <div class="team-card flex-fill">
+            <img src="{{ url_for('static', filename='images/anna.webp') }}"
+                 class="team-card-img"
+                 alt="person2">
+
+              <h4 class="mb-1">Anna</h4>
+              <p class="mb-0">
+                Junior Competition Team
+              </p>
+          </div>
+        </div>
+        
+        <div class="col-12 col-md-6 col-lg-4 mx-auto" style="margin-bottom: 25px">
+          <div class="team-card flex-fill">
+            <img src="{{ url_for('static', filename='images/teresa.jpg') }}"
+                 class="team-card-img"
+                 alt="person2">
+
+              <h4 class="mb-1">Teresa</h4>
+              <p class="mb-0">
+                Junior Competition Team
+              </p>
+          </div>
+        </div>
+        
+    </div>
 </div>
 
 {% endblock %}

@@ -173,6 +173,7 @@
             width: 100%;
         }
         .navbar .nav-link {
+          color: #C2BCBC !important;
           text-align: center;
           padding: 8px 0;
           font-size: 16px;
@@ -288,10 +289,14 @@
             </li>
             {% endif %}
             -->
+            
           <li class="nav-item">
               <a class="nav-link" href="/schedule">Schedule</a>
           </li>
           </ul>
+          
+          <hr style="height: 0.5em; visibility: hidden; margin: 0;" />
+
         </div>
     </nav>
     {% with messages = get_flashed_messages(with_categories=true) %} {% if

@@ -3,7 +3,7 @@ import os
 
 gallery_path = "static/images/gallery"
 
-for i in range(1, 52):
+for i in range(52, 56):
     png_path = os.path.join(gallery_path, f"gallery{i}.webp")
     placeholder_path = os.path.join(gallery_path, f"gallery{i}_placeholder.webp")
     

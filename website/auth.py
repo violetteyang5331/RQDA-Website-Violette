@@ -183,6 +183,6 @@ def edit_schedule():
 
 @auth.route("/gallery")
 def gallery():
-    images = [f"gallery/gallery{i}.webp" for i in range(1, 52)]
+    images = [f"gallery/gallery{i}.webp" for i in range(1, 56)]
     random.shuffle(images)
     return render_template("gallery.html", user=current_user, images=images)
